@@ -51,7 +51,7 @@ async function run() {
     // await client.connect();
 
     const usersCollection = client.db('amazingEcommerce').collection('users')
-
+    const productCollection = client.db('amazingEcommerce').collection("addProduct")
     app.post('/users', async (req, res) => {
       const user = req.body
       console.log(user)
@@ -71,6 +71,13 @@ async function run() {
       const result = await usersCollection.find().toArray();
       res.send(result)
     })
+
+    app.post('/addProduct',  async (req, res) => {
+      const  productItem = req.body
+      const result = await productCollection.insertOne( productItem)
+      res.send(result)
+    })
+
 
 
 
