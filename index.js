@@ -78,7 +78,10 @@ async function run() {
       res.send(result)
     })
 
-
+    app.get('/addProduct',  async (req, res) => {
+      const result = await productCollection.find().toArray();
+      res.send(result)
+    })
 
 
  // jwt 
