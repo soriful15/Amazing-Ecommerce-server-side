@@ -52,6 +52,7 @@ async function run() {
 
     const usersCollection = client.db('amazingEcommerce').collection('users')
     const productCollection = client.db('amazingEcommerce').collection("addProduct")
+    const cartsCollection = client.db('amazingEcommerce').collection("carts")
     app.post('/users', async (req, res) => {
       const user = req.body
       console.log(user)
@@ -87,6 +88,28 @@ async function run() {
       const query = { _id: new ObjectId(id) }
       const singleProduct = await productCollection.findOne(query)
       res.send(singleProduct)
+    })
+
+    app.post('/carts', async (req, res) => {
+      const items = req.body
+      console.log(items)
+      const result = await cartsCollection.insertOne(items)
+      res.send(result)
+    })
+
+    app.get('/carts', verifyJwt, async (req, res) => {
+      const email = req.query.email
+      console.log(email)
+      if (!email) {
+        res.send([])
+      }
+      const decodedEmail = req.decoded.email;
+      if (email !== decodedEmail) {
+        return res.status(401).send({ error: true, message: 'forbidden access' })
+      }
+      const query = { email: email }
+      const result = await cartsCollection.find(query).toArray()
+      res.send(result)
     })
 
  // jwt 
