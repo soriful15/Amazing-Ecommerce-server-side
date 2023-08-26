@@ -125,7 +125,7 @@ async function run() {
     })
 
     app.get('/orderList', verifyJwt,  async (req, res) => {
-      const result = await ordersCollectionsCollection.find().toArray();
+      const result = await ordersCollection.find().toArray();
       res.send(result)
     })
 
