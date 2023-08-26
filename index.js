@@ -53,6 +53,9 @@ async function run() {
     const usersCollection = client.db('amazingEcommerce').collection('users')
     const productCollection = client.db('amazingEcommerce').collection("addProduct")
     const cartsCollection = client.db('amazingEcommerce').collection("carts")
+    const ordersCollection = client.db('amazingEcommerce').collection("orderList")
+
+
     app.post('/users', async (req, res) => {
       const user = req.body
       console.log(user)
@@ -121,7 +124,10 @@ async function run() {
       res.send(result)
     })
 
-
+    app.get('/orderList', verifyJwt,  async (req, res) => {
+      const result = await ordersCollectionsCollection.find().toArray();
+      res.send(result)
+    })
 
  // jwt 
  app.post('/jwt', async (req, res) => {
